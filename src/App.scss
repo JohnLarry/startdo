@@ -1,0 +1,220 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+$active-list-button-color :#f4dae1;
+$primary-color:#323f7f;
+$future-todo-color:#ffc7d2;
+$today-todo-color:#d1cdff;
+$form-margin: 5px;
+%todo-button-normal{
+  border-radius: 15px;
+  padding: 5px 10px;
+  width: auto;
+  color: $primary-color;
+  margin-left: 1px;
+}
+%list-item{
+  width: auto;
+  
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5pxo;
+  list-style: none;
+  
+}
+.list-item-content{
+margin-top: 2em;
+height: 3em;
+line-height: 3em;
+padding-left:1em;
+
+}
+.list-item-btnlast{
+  margin: 0.5em;
+  padding-right:1em;
+  
+  }
+.todobuton-active{
+  
+
+  background-color: $active-list-button-color;
+
+}
+.todobuton{
+  @extend %todo-button-normal;
+}
+.future-todo{
+  background: $future-todo-color;
+  @extend %list-item;
+}
+.today-todo{
+  background-color: $today-todo-color;
+  @extend %list-item;
+}
+.todomenu-scrolling-wrapper{
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x:auto;
+  justify-content: space-around;
+  -webkit-overflow-scrolling:touch;
+  &::-webkit-scrollbar{
+    display: none;
+  }
+
+  .todo-btn{
+    flex: 0 0 auto;
+    margin-right: 5px;
+    @extend %todo-button-normal;
+   
+  }
+}
+
+$done-color: #313146;
+.list-item-row{
+  display: flex;
+  justify-content: space-between;
+
+}
+.edit-icon{
+  background-image: url(/images/edit.svg);
+  background-repeat: no-repeat;
+}
+.nav-icon{
+  background-image: url(/images/nav.svg);
+  background-repeat: no-repeat;
+}
+.floating-button{
+  
+  border-radius: 2em;
+  height: 4em;
+  width: 4em;
+  background-color: #ffc7d2;
+  font-size: large;
+  position: relative;
+  margin-right: 1rem;
+  padding-right: 1rem;
+  margin-bottom: 4em;
+  float: right;
+  margin-top: 1rem;  
+}
+.button-primary{
+ 
+ 
+
+  background-color: #ffc7d2;
+  border-radius: 1em;
+  margin-top: 5px;
+}
+.button-secondary{
+ 
+  
+
+  background-color:$primary-color;
+  border-radius: 1em;
+  margin-top: 5px;
+  color: #fff;
+}
+.button-tertiary{
+ 
+  
+
+  background-color:#fff;
+  border-radius: 1em;
+  margin: 5px;
+  color:$primary-color;
+  border: 1 px $primary-color;
+}
+.button-danger{
+ 
+
+
+  background-color: #db1009;
+  border-radius: 1em;
+  margin: 5px;
+  color:#fff;
+  
+}
+.div-cards{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: 10px;
+}
+.cards{
+  padding: 2em;
+  background-color: $primary-color;
+  text-align: center;
+  height: 10em;
+  width: 10em;
+  margin-bottom: 1em;
+  color:#ffc7d2;
+}
+.form-default{
+
+  margin: $form-margin;
+  text-align: center;
+  min-width: 100%;
+ 
+}
+.form-input-text{
+  min-width: 100%;
+
+ 
+ margin-top: 2px;
+ 
+
+}
+.form-input-remove{
+  color: #fff;
+  background-color: #d1cdff;
+}
+.form-input-add{
+  color: #fff;
+  background-color: #323f7f;
+}
+.form-header{
+  background-color: #ffc7d2;
+  padding: 3px;
+  color: $primary-color;
+}
+.btn-bg-transparent{
+  background-color: transparent;
+  border: 0px;
+
+}
