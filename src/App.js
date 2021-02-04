@@ -330,7 +330,7 @@ removeFormFieldForTodo =(i)=>{
 saveNote =(item)=>{
   const notes =this.state.noteItems;
   const m = notes.filter(item=>(item.description!==""));
-   m.map(item=>(axios.post("/api/todos/",item,{headers:{'X-CSRFToken':this.csrfToken}}).then(
+   m.map(item=>(axios.post("https://startdobackend.herokuapp.com/api/todos/",item,{headers:{'X-CSRFToken':this.csrfToken}}).then(
      resp=>(this.refreshItems())).then(resp=>(this.closeForm())).catch(
        error =>(this.setState({error:"error occured while saving note"}))
      )));
@@ -342,7 +342,7 @@ saveTodo =(item)=>{
   const filteredTodo = this.state.todoItems;
   const m = filteredTodo.filter(item=>(item.description!==""));
   m.map(item=> 
-    (axios.post("/api/todos/",item, {headers:{'X-CSRFToken':this.csrfToken}}).then(
+    (axios.post("https://startdobackend.herokuapp.com/api/todos/",item, {headers:{'X-CSRFToken':this.csrfToken}}).then(
       resp=>this.refreshItems()).then(resp=>this.closeForm()).catch(error=>(this.setState({error:"Error occured while saving note"})))));
 
   return ; 
@@ -350,14 +350,14 @@ saveTodo =(item)=>{
 }
 
 refreshItems = () =>{
-axios.get('/api/todos/').
+axios.get('https://startdobackend.herokuapp.com/api/todos/').
 then(
   resp=>(this.setState({items:resp.data}))
 ).catch(error=>(this.setState({error:"couldn't  refresh item"})))
 
 }
 usersCompletedTodoNumber = ()=>{
- axios.get('/api/todos/my_numbers/').
+ axios.get('https://startdobackend.herokuapp.com/api/todos/my_numbers/').
   then(
     resp=>(this.setState({my_number:resp.data}))).
   catch(error=>(this.setState({error:"Please try again"})));
@@ -368,7 +368,7 @@ usersCompletedTodoNumber = ()=>{
 
 deleteItemPermanently =(item) =>{
   console.log(this.csrfToken);
-  axios.delete(`/api/todos/${item.id}`,{headers:{'X-CSRFToken':this.csrfToken}}).
+  axios.delete(`https://startdobackend.herokuapp.com/api/todos/${item.id}`,{headers:{'X-CSRFToken':this.csrfToken}}).
   then(resp=>this.refreshItems()).then(resp=>this.closeForm()).catch(
     error=>(this.setState({error:"couldn't delete try agian later"} ))
   )
@@ -382,7 +382,7 @@ if(item.id){
   const itemToMoveToNote = {...activeItem};
   itemToMoveToNote.completed =true;
 
-    axios.put(`/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
+    axios.put(`https://startdobackend.herokuapp.com/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
       error=>(this.setState({error:"couldn't update  "})));
       return;
@@ -398,7 +398,7 @@ markItemAsNote =(item)=>{
   const itemToMoveToNote = {...activeItem};
   itemToMoveToNote.draft =true;
 
-    axios.put(`/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
+    axios.put(`https://startdobackend.herokuapp.com/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
       error=>(this.setState({error:"couldn't update  "})));
       return;
@@ -413,7 +413,7 @@ markItemAsTodayTodo=(item)=>{
   const itemToMoveToNote = {...activeItem};
   itemToMoveToNote.draft =false;
 
-    axios.put(`/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
+    axios.put(`https://startdobackend.herokuapp.com/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
       error=>(this.setState({error:"couldn't update  "})));
       return;
@@ -423,7 +423,7 @@ markItemAsTodayTodo=(item)=>{
 
 
 updateItemDescription =(item)=>{
-  axios.put(`/api/todos/${item.id}/`,item,{headers:{'X-CSRFToken':this.csrfToken}}).
+  axios.put(`https://startdobackend.herokuapp.com/api/todos/${item.id}/`,item,{headers:{'X-CSRFToken':this.csrfToken}}).
   then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
     error=>(this.setState({error:"couldn't update  "})));
     return;
