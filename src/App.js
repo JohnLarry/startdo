@@ -263,7 +263,7 @@ myNumbers = ()=>{
   <div className ="div-cards">
 
 <div className ="cards">
-      <p>{Yesterday}</p>
+      <p>{yesterday}</p>
       <p>Yesterday</p>
     </div>
     
