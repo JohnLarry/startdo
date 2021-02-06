@@ -30,7 +30,7 @@ export default class TodayTodoForm extends Component{
             name ="description"
             onChange ={(e)=>TodoInputChange(e,i)}
             value ={todoItem.description}/></div>
-            <div className ="co-xs-3 col-sm-1">
+            <div className ="col-xs-3 col-sm-1">
             {i>=6&&<input type="button" name ="remove" className ="form-input-remove" onClick ={()=>removeFormFieldForTodo(i)} value="-"/>}
             {i>=5&&item.length-1===i&&<input type="button" className ="form-input-add" name ="add" onClick ={()=>addFormFieldForTodo()} value="+"/>}</div></div>
             
@@ -46,7 +46,7 @@ export default class TodayTodoForm extends Component{
         
      
       
-      <div>
+      <div className ="center-align">
         <input type="button" className ="btn btn-tertiary"
         value ="Cancel" onClick ={() =>close()}/>
         <input type="button" className ="button-primary" onClick ={()=>saveTodo(item)} value ="Save"/></div>

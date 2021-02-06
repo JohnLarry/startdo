@@ -258,26 +258,26 @@ upcommingTodo =()=>{
 
 myNumbers = ()=>{
  
-  const {month,today, week, year} = this.state.my_number;
+  const {yesterday, week, month, year} = this.state.my_number;
   const myNumber = 
   <div className ="div-cards">
 
 <div className ="cards">
-      <p>{today}</p>
-      <p>Today</p>
+      <p>{Yesterday}</p>
+      <p>Yesterday</p>
     </div>
     
     <div className ="cards">
       <p>{week}</p>
-      <p>Week</p>
+      <p>Past 7 Days</p>
     </div>
     <div className ="cards" >
       <p>{month}</p>
-      <p>Month</p>
+      <p>Past 30 Days</p>
       </div>
     <div className ="cards" >
       <p>{year}</p>
-      <p>Year</p>
+      <p>This Year</p>
       </div>
   
   </div>
