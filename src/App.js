@@ -285,7 +285,7 @@ myNumbers = ()=>{
   return (myNumber);
 
 }
-
+/*add note form */
 addFormField = ()=>{
   const {noteItems} =this.state;
    const newNoteItem =[...noteItems,{
@@ -296,6 +296,7 @@ addFormField = ()=>{
   return(this.setState({noteItems:newNoteItem}));
 
 }
+/* remove  field in note form */
 removeFormField =(i)=>{
   const {noteItems} =this.state;
    const noteItemsForRemoval =[...noteItems
@@ -494,13 +495,13 @@ return this.setState({currentPageView:1})
           <div className ={`todo-btn ${this.state.currentTab===4?'todobuton-active':''}`} onClick ={()=>this.toggleList(false,4)}>My numbers</div>
           
         </div>
-       {this.state.currentTab===1? this.upcommingTodo():''}
-      <div >
+        <div >{this.state.currentTab===1? this.upcommingTodo():''}</div>
+      
         
         
     
-      {this.state.currentTab===2? this.todoToDisplay():''}
-      {this.state.currentTab===3? 
+        <div >{this.state.currentTab===2? this.todoToDisplay():''}</div>
+        <div >{this.state.currentTab===3? 
       <select name ="doneDate" onChange ={(e)=>this.onDoneDateChange(e)} value ={this.state.selectedDate}> 
         <option value ="1">Today</option>
         <option value ="2">Yesterday</option>
