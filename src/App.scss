@@ -129,9 +129,9 @@ $done-color: #313146;
   position: relative;
   margin-right: 1rem;
   padding-right: 1rem;
-  margin-bottom: 4em;
   float: right;
-  margin-top:  90%;  
+  margin-top:  30%;  
+  bottom: 20px;
 }
 .button-primary{
  
@@ -190,8 +190,13 @@ $done-color: #313146;
   margin: $form-margin;
   text-align: left;
   min-width: 100%;
- 
 }
+ .form-primary{
+  margin: $form-margin;
+  text-align:center;
+  min-width: 100%;
+ }
+
 .form-input-text{
   min-width: 100%;
 
@@ -221,4 +226,8 @@ $done-color: #313146;
 .center-align{
 
   text-align: center;
+}
+.div-float-right{
+  float: right;
+  max-height: 1em;
 }
