@@ -59,6 +59,7 @@ export default function SignUp (props){
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(values)};
+          
   
           const corsUrl = "https://secure-ravine-92476.herokuapp.com/";
           const url   = `${rootUrl}/signup/`;

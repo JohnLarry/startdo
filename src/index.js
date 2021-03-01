@@ -15,10 +15,10 @@ ReactDOM.render(
       <Route exact path="/" >
         <App />
       </Route>
-      <Route path="/login" component={Login}/>
-      <Route path="/signup" component={Signup}/>
-      <Route path="/calc" component={Calc}/>
-      <Route path="/reset-password" component={ResetPassword}/>
+      <Route path="/login/" component={Login}/>
+      <Route path="/signup/" component={Signup}/>
+      <Route path="/calc/" component={Calc}/>
+      <Route path="/reset-password/" component={ResetPassword}/>
 
     </BrowserRouter> 
   </React.StrictMode>,
