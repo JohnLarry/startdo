@@ -4,23 +4,13 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter, Switch, Route, Link, NavLink} from "react-router-dom";
-import Login from "./components/loginform";
-import Signup from "./components/signupform";
-import Calc from ".//calculator/calculator";
-import ResetPassword from "./components/forgotpassword";
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Route exact path="/" >
+   
+  
         <App />
-      </Route>
-      <Route exact path="/login/" component={Login}/>
-      <Route exact path="/signup/" component={Signup}/>
-      <Route exact path="/calc/" component={Calc}/>
-      <Routeexact  path="/reset-password/" component={ResetPassword}/>
+      
 
-    </BrowserRouter> 
   </React.StrictMode>,
   document.getElementById('root')
 );
