@@ -12,8 +12,8 @@ export default class DeleteTodoForm extends Component{
         return(
         <form className ="form-default">
              <h1 class="form-header">  Remove From Today's Schedule </h1>
-            <span>{item.description}</span>
-            <div><input type="button" className ="button-secondary"  onClick ={()=>moveToFuture(item)} value="Move to future"/>
+            <div className="delete-span-div" ><span>{item.description}</span></div>
+            <div className="delete-btn-div"><input type="button" className ="button-secondary"  onClick ={()=>moveToFuture(item)} value="Move to future"/>
                 <input type="button" className ="button-tertiary" value="Cancel" onClick ={()=>closeDeleteForm()}/>
                 <input type="button" className ="button-primary" onClick ={()=>markAsCompleted(item)} value="Mark as done"/></div>
         </form>

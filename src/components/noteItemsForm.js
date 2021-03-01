@@ -46,6 +46,7 @@ export default class NoteForm extends Component{
        
        
         <div className="center-align">
+           
           <input type="button" className ="btn btn-tertiary"
           value ="Cancel" onClick ={() =>close()}/>
           <input type="button" className ="button-primary" onClick={()=>saveNote(item)} value ="Save"/>

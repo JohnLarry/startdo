@@ -1,3 +1,7 @@
+*, *::after,*::before{
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
 }
@@ -121,17 +125,17 @@ $done-color: #313146;
 }
 .floating-button{
   
-  border-radius: 2em;
-  height: 4em;
-  width: 4em;
-  background-color: #ffc7d2;
-  font-size: large;
-  position: relative;
-  margin-right: 1rem;
-  padding-right: 1rem;
-  float: right;
-  margin-top:  30%;  
-  bottom: 20px;
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 3em;
+  background-color:#fff;
+  color:  #000;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px xpx 3px #d1cdff;
+  outline: none;
 }
 .button-primary{
  
@@ -217,6 +221,7 @@ $done-color: #313146;
   background-color: #ffc7d2;
   padding: 3px;
   color: $primary-color;
+  text-align: center;
 }
 .btn-bg-transparent{
   background-color: transparent;
@@ -230,4 +235,94 @@ $done-color: #313146;
 .div-float-right{
   float: right;
   max-height: 1em;
+}
+
+.form-row{
+  max-width: 500px;
+  margin-left: 5px;
+  margin-right: 5px;
+  text-align: center;
+}
+.container{
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 600px;
+}
+@media (min-width: 768px){
+.container {
+    max-width: 600px;
+}}
+
+.daydo-floating-btn{
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  background-color: #ffc7d2;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px xpx 3px #d1cdff;
+}
+.daydo-top-float{
+  margin-top: 22px;
+}
+@media (min-width:960px){
+  .floating-button{
+  
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 5em;
+    right: 6em;
+    background-color:#323f7f;
+    color:  #fff;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 2px xpx 3px #d1cdff;
+    outline: none;
+  }
+  .editform-textarea{
+    min-width: 50vw;
+    min-height: 200px;
+  
+  }
+}
+.done-selector{
+
+  border: 2px solid #ffc7d2;
+  outline: 2px solid #ffc7d2;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+}
+.done-selector-div{
+  display: flex;
+  justify-content: center;
+}
+.editform-textarea-div{
+  display: flex;
+  justify-content: center;
+}
+.editform-btn-div{
+  display: flex;
+  justify-content: center;
+}
+.editform-textarea{
+  outline: 3px solid #ffc7d2;
+  min-width: 50vw;
+  min-height: 200px;
+}
+.delete-btn-div{
+  display: flex;
+  justify-content: center;
+}
+.delete-span-div{
+  display: flex;
+  justify-content: center;
+  border: 2px solid #ffc7d2;
+  margin: 10px;
 }

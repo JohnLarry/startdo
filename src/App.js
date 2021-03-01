@@ -7,8 +7,10 @@ import EditForm from './components/editForm';
 import DeleteTodoForm from './components/deleteTodoForm';
 import DeleteNoteForm from './components/deleteNoteForm';
 import './App.scss';
+import {devUrl, prodUrl} from "./utilities/constants";
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import UserLogin from "./components/loginform";
 import {format, parse, parseISO,isToday, isThisWeek, isThisMonth, isThisYear, isYesterday } from 'date-fns';
 class  App  extends Component{
   constructor(props){
@@ -16,6 +18,7 @@ class  App  extends Component{
      this.csrfToken = Cookies.get('csrftoken');
      this.todaysDate = Date.now();
      this.utcDate =this.todaysDate.getUTCDate;
+      this.apiUrl = devUrl;
     this.state ={
       my_number:{},
       currentTab:1,
@@ -206,7 +209,7 @@ todoToDisplay  =()=>{
        {item.description}  
        </span>
        </div>
-       <div className ="">
+       <div className ="list-item-row">
        {!this.state.itemCompleted && <input type='button' className ="edit-icon list-item-btnlast btn-bg-transparent " onClick ={()=>this.openTodoEditForm(item)} />}
       {!this.state.itemCompleted && <input type='button' className ="nav-icon list-item-btnlast btn-bg-transparent" onClick ={()=>this.openDeleteForm(item)} />}
      
@@ -247,7 +250,7 @@ upcommingTodo =()=>{
          <div className ="">
        <span className ="list-item-content">{item.description} </span>
        </div>
-       <div className ="">
+       <div className ="list-item-row">
       {!this.state.itemCompleted && <input  type='button' className ="edit-icon list-item-btnlast btn-bg-transparent " onClick ={()=>this.openTodoEditForm(item)} />}
       {!this.state.itemCompleted && <input  type='button' className ="nav-icon list-item-btnlast btn-bg-transparent "  onClick ={()=>this.openNoteDeleteForm(item) }/>}
       </div>
@@ -279,7 +282,7 @@ myNumbers = ()=>{
       <p>{year}</p>
       <p>This Year</p>
       </div>
-  
+     
   </div>
   
   return (myNumber);
@@ -331,7 +334,7 @@ removeFormFieldForTodo =(i)=>{
 saveNote =(item)=>{
   const notes =this.state.noteItems;
   const m = notes.filter(item=>(item.description!==""));
-   m.map(item=>(axios.post("https://startdobackend.herokuapp.com/api/todos/",item,{headers:{'X-CSRFToken':this.csrfToken}}).then(
+   m.map(item=>(axios.post(`${this.apiUrl}/api/todos/`,item,{headers:{'X-CSRFToken':this.csrfToken}}).then(
      resp=>(this.refreshItems())).then(resp=>(this.closeForm())).catch(
        error =>(this.setState({error:"error occured while saving note"}))
      )));
@@ -343,7 +346,7 @@ saveTodo =(item)=>{
   const filteredTodo = this.state.todoItems;
   const m = filteredTodo.filter(item=>(item.description!==""));
   m.map(item=> 
-    (axios.post("https://startdobackend.herokuapp.com/api/todos/",item, {headers:{'X-CSRFToken':this.csrfToken}}).then(
+    (axios.post(`${this.apiUrl}/api/todos/`,item, {headers:{'X-CSRFToken':this.csrfToken}}).then(
       resp=>this.refreshItems()).then(resp=>this.closeForm()).catch(error=>(this.setState({error:"Error occured while saving note"})))));
 
   return ; 
@@ -351,14 +354,14 @@ saveTodo =(item)=>{
 }
 
 refreshItems = () =>{
-axios.get('https://startdobackend.herokuapp.com/api/todos/').
+axios.get(`${this.apiUrl}/api/todos/`).
 then(
   resp=>(this.setState({items:resp.data}))
 ).catch(error=>(this.setState({error:"couldn't  refresh item"})))
 
 }
 usersCompletedTodoNumber = ()=>{
- axios.get('https://startdobackend.herokuapp.com/api/todos/my_numbers/').
+ axios.get(`${this.apiUrl}/api/todos/my_numbers/`).
   then(
     resp=>(this.setState({my_number:resp.data}))).
   catch(error=>(this.setState({error:"Please try again"})));
@@ -369,7 +372,7 @@ usersCompletedTodoNumber = ()=>{
 
 deleteItemPermanently =(item) =>{
   console.log(this.csrfToken);
-  axios.delete(`https://startdobackend.herokuapp.com/api/todos/${item.id}`,{headers:{'X-CSRFToken':this.csrfToken}}).
+  axios.delete(`${this.apiUrl}/api/todos/${item.id}`,{headers:{'X-CSRFToken':this.csrfToken}}).
   then(resp=>this.refreshItems()).then(resp=>this.closeForm()).catch(
     error=>(this.setState({error:"couldn't delete try agian later"} ))
   )
@@ -383,7 +386,7 @@ if(item.id){
   const itemToMoveToNote = {...activeItem};
   itemToMoveToNote.completed =true;
 
-    axios.put(`https://startdobackend.herokuapp.com/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
+    axios.put(`${this.apiUrl}/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
       error=>(this.setState({error:"couldn't update  "})));
       return;
@@ -399,7 +402,7 @@ markItemAsNote =(item)=>{
   const itemToMoveToNote = {...activeItem};
   itemToMoveToNote.draft =true;
 
-    axios.put(`https://startdobackend.herokuapp.com/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
+    axios.put(`${this.apiUrl}/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
       error=>(this.setState({error:"couldn't update  "})));
       return;
@@ -414,7 +417,7 @@ markItemAsTodayTodo=(item)=>{
   const itemToMoveToNote = {...activeItem};
   itemToMoveToNote.draft =false;
 
-    axios.put(`https://startdobackend.herokuapp.com/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
+    axios.put(`${this.apiUrl}/api/todos/${item.id}`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
       error=>(this.setState({error:"couldn't update  "})));
       return;
@@ -424,7 +427,7 @@ markItemAsTodayTodo=(item)=>{
 
 
 updateItemDescription =(item)=>{
-  axios.put(`https://startdobackend.herokuapp.com/api/todos/${item.id}/`,item,{headers:{'X-CSRFToken':this.csrfToken}}).
+  axios.put(`${this.apiUrl}/api/todos/${item.id}/`,item,{headers:{'X-CSRFToken':this.csrfToken}}).
   then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
     error=>(this.setState({error:"couldn't update  "})));
     return;
@@ -502,14 +505,15 @@ return this.setState({currentPageView:1})
     
         <div >{this.state.currentTab===2? this.todoToDisplay():''}</div>
         <div >{this.state.currentTab===3? 
-      <select name ="doneDate" onChange ={(e)=>this.onDoneDateChange(e)} value ={this.state.selectedDate}> 
+      <div className="done-selector-div" >
+        <select name ="doneDate" onChange ={(e)=>this.onDoneDateChange(e)} value ={this.state.selectedDate} className="done-selector"> 
         <option value ="1">Today</option>
         <option value ="2">Yesterday</option>
         <option value ="3" >This week</option>
         <option value ="4" >This month</option>
         <option value ="5" >This year</option>
         
-      </select>:''}
+      </select></div>:''}
       <div>{this.state.currentTab===3? this.completedTodoToDisplay():' '}</div>
      
       {this.state.currentTab===4? this.myNumbers():''}

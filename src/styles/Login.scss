@@ -1,0 +1,30 @@
+
+.login-form
+{
+   display: flex;
+   background-image: linear-gradient(to right, #fff, #000) ; 
+   flex-direction: column;
+   flex-basis: 10em;
+   align-items: center;
+}
+.login-form .form-row{
+   
+}
+.login-form .form-row input{
+    flex: 1;
+    padding: 5px;
+    margin-top: 5px;
+    
+}
+.login-form .form-row button{
+    flex: 1;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 5px;
+    width: 10em;
+    color:#fff;
+    margin-left: 1em;
+    background-color: rgb(235, 148, 216);
+    
+
+}

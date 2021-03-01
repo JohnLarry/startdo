@@ -11,8 +11,10 @@ export default class DeleteNoteForm extends Component{
         return(
         <form className ="form-default" >
              <h1 class="form-header">  Today or Never </h1>
-            <span>{item.description}</span>
-            <div><input type="button"  className ="button-secondary"  onClick ={()=>moveToTodayTodo(item)} value="Move to today"/>
+            <div className="delete-span-div">
+                <span>{item.description}</span>
+                </div>
+            <div className="delete-btn-div" ><input type="button"  className ="button-secondary"  onClick ={()=>moveToTodayTodo(item)} value="Move to today"/>
                 <input type="button" className ="button-tertiary"  value="Cancel" onClick ={()=>closeNoteForm()}/>
                 <input type="button" className ="button-danger"  onClick ={()=>deleteItemPermanently(item)} value="Delete permanently"/></div>
         </form>
