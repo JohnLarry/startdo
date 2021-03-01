@@ -7,7 +7,7 @@ import EditForm from './components/editForm';
 import DeleteTodoForm from './components/deleteTodoForm';
 import DeleteNoteForm from './components/deleteNoteForm';
 import './App.scss';
-import {devUrl, prodUrl} from "./utilities/constants";
+import {rootUrl} from "./utilities/constants";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import UserLogin from "./components/loginform";
@@ -18,7 +18,7 @@ class  App  extends Component{
      this.csrfToken = Cookies.get('csrftoken');
      this.todaysDate = Date.now();
      this.utcDate =this.todaysDate.getUTCDate;
-      this.apiUrl = devUrl;
+      this.apiUrl = rootUrl;
     this.state ={
       my_number:{},
       currentTab:1,

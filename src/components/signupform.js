@@ -10,7 +10,7 @@ import * as yup from "yup";
 import {Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {devUrl, prodUrl} from "../utilities/constants";
+import {rootUrl} from "../utilities/constants";
 import {LogUserIn} from "./loginform"
 
 const csrfToken = Cookies.get('csrftoken');
@@ -23,7 +23,7 @@ const schema = yup.object({
 
 const RegisterUser =(item)=>{
             
- const signup = axios.post(`${devUrl}/signup/`,item,{headers:{'X-CSRFToken':csrfToken}}).then(
+ const signup = axios.post(`${rootUrl}/signup/`,item,{headers:{'X-CSRFToken':csrfToken}}).then(
      resp=>(resp.data) 
   )   
   .catch(error=>error);
@@ -61,7 +61,7 @@ export default function SignUp (props){
           body: JSON.stringify(values)};
   
           const corsUrl = "https://secure-ravine-92476.herokuapp.com/";
-          const url   = `${devUrl}/signup/`;
+          const url   = `${rootUrl}/signup/`;
   
            setTimeout(() => {
              fetch(url , requestOptions)
@@ -129,7 +129,7 @@ export default function SignUp (props){
           <Form.Control.Feedback></Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="formBasicUserEmail" style={{display: 'none'}} > 
+      <Form.Group controlId="formBasicUserEmail" > 
         <Form.Label srOnly> Email </Form.Label>
         <Form.Control  
             size="lg" 

@@ -11,7 +11,7 @@ import * as yup from "yup";
 import {Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {devUrl, prodUrl} from "../utilities/constants";
+import {rootUrl} from "../utilities/constants";
 const schema = yup.object({
   
     username: yup.string().email().required(),
@@ -24,7 +24,7 @@ const schema = yup.object({
 
  export const LogUserIn =(item)=>{
             
-    axios.post(`${devUrl}/login/`,item,{headers:{'X-CSRFToken':csrfToken}}).then(
+    axios.post(`${rootUrl}/login/`,item,{headers:{'X-CSRFToken':csrfToken}}).then(
        resp=>(LocalStorageService.setToken(resp.data)) 
     )   
     .catch(error=>error);
@@ -69,7 +69,7 @@ export default function Login (props){
               body: JSON.stringify(values)};
       
               const corsUrl = "https://secure-ravine-92476.herokuapp.com/";
-              const url   = `${devUrl}/login/`;
+              const url   = `${rootUrl}/login/`;
       
                setTimeout(() => {
                  fetch(url , requestOptions)
