@@ -10,6 +10,7 @@ import './App.scss';
 import {rootUrl} from "./utilities/constants";
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import {Link} from "react-router-dom";
 import UserLogin from "./components/loginform";
 import {format, parse, parseISO,isToday, isThisWeek, isThisMonth, isThisYear, isYesterday } from 'date-fns';
 class  MainApp  extends Component{
@@ -492,7 +493,7 @@ return this.setState({currentPageView:1})
       
     <div >
       <div className ="todomenu-scrolling-wrapper">
-          <div className ={`todo-btn ${this.state.currentTab===1?'todobuton-active':''}`} onClick ={()=>this.toggleList(false,1)}>future</div>
+          <div className ={`todo-btn ${this.state.currentTab===1?'todobuton-active':''}`} onClick ={()=>this.toggleList(false,1)}>future<Link  to ="/login/"/></div>
           <div className ={`todo-btn ${  this.state.currentTab===2?'todobuton-active':''}`} onClick ={()=>this.toggleList(false,2)}>Today</div>
           <div className ={`todo-btn  ${ this.state.currentTab===3?'todobuton-active':''} `}onClick ={()=>this.toggleList(true,3)}>Done</div>
           <div className ={`todo-btn ${this.state.currentTab===4?'todobuton-active':''}`} onClick ={()=>this.toggleList(false,4)}>My numbers</div>
@@ -538,6 +539,9 @@ return this.setState({currentPageView:1})
      item ={this.state.todoItems} 
      addFormFieldForTodo ={this.addFormFieldForTodo} 
      removeFormFieldForTodo={this.removeFormFieldForTodo} 
+
+
+
      TodoInputChange ={this.TodoInputChange}
      close ={this.closeForm}  
      saveTodo={this.saveTodo}/> :""}
