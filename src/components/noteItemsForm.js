@@ -1,15 +1,10 @@
 import React, {Component} from 'react';
+import {useUuid, useAuth} from "../context/authcontext";
 
-export default class NoteForm extends Component{
-    constructor(props){
-        super(props)
-        this.state ={
-            noteItemss: this.props.noteItem,
-                }
-    }
-
-    render(){
-        const {item, close, NoteInputChange,addFormField, removeFormField, saveNote} = this.props;
+export default function NoteForm(props)
+    {
+        const {item,close, NoteInputChange,addFormField, removeFormField, saveNote} = props;
+        const {userUuid}  = useUuid();
         return(
         <React.Fragment>
             
@@ -49,7 +44,7 @@ export default class NoteForm extends Component{
            
           <input type="button" className ="btn btn-tertiary"
           value ="Cancel" onClick ={() =>close()}/>
-          <input type="button" className ="button-primary" onClick={()=>saveNote(item)} value ="Save"/>
+          <input type="button" className ="button-primary" onClick={()=>saveNote(item,userUuid)} value ="Save"/>
           </div>
         
       </form>
@@ -57,4 +52,3 @@ export default class NoteForm extends Component{
     </React.Fragment>)
         ;
     }
-}

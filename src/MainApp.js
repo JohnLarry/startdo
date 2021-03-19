@@ -8,14 +8,18 @@ import DeleteTodoForm from './components/deleteTodoForm';
 import DeleteNoteForm from './components/deleteNoteForm';
 import './App.scss';
 import {rootUrl} from "./utilities/constants";
+import LocalStorageService from "./utilities/localStorageService";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import {Link} from "react-router-dom";
 import UserLogin from "./components/loginform";
+import {AuthContext} from "./context/authcontext";
 import {format, parse, parseISO,isToday, isThisWeek, isThisMonth, isThisYear, isYesterday } from 'date-fns';
 class  MainApp  extends Component{
+  static contextType =AuthContext;
   constructor(props){
     super(props);
+    
      this.csrfToken = Cookies.get('csrftoken');
      this.todaysDate = Date.now();
      this.utcDate =this.todaysDate.getUTCDate;
@@ -36,26 +40,32 @@ class  MainApp  extends Component{
         draft:""
       },
       todoItems:[{
+        
         description:"",
         completed:false,
         draft:false,
       },{
+        
         description:"",
         completed:false,
         draft:false,
       },{
+        
         description:"",
         completed:false,
         draft:false,
       },{
+        
         description:"",
         completed:false,
         draft:false,
       },{
+       
         description:"",
         completed:false,
         draft:false,
       },{
+       
         description:"",
         completed:false,
         draft:false,
@@ -90,6 +100,7 @@ class  MainApp  extends Component{
   }
  
 componentDidMount(){
+ 
   this.refreshItems();
   this.usersCompletedTodoNumber();
 }
@@ -139,6 +150,11 @@ componentDidMount(){
   else{ currentTodoItems[i][name] =value;}
   return(this.setState({todoItems:currentTodoItems}));
 
+}
+OwnerChange =(uuid)=>{
+  const {todoOwner} =this.state;
+  let newOwner ={todo_owner:uuid}
+  return (this.setState({todoOwner:newOwner}))
 }
 EditInputChange =(e,i)=>{
   const {items} =this.state;
@@ -332,10 +348,17 @@ removeFormFieldForTodo =(i)=>{
 
 /* save note items*/
 
-saveNote =(item)=>{
+saveNote =(item,uuid)=>{
+  let authToken =this.context;
+  let useruuid =uuid;
+  let todo_owner =this.state.todoOwner;
   const notes =this.state.noteItems;
   const m = notes.filter(item=>(item.description!==""));
-   m.map(item=>(axios.post(`${this.apiUrl}/api/todos/`,item,{headers:{'X-CSRFToken':this.csrfToken}}).then(
+   m.map(item=>(axios.post(`${this.apiUrl}/api/todos/`,{...item,"todo_owner":`${useruuid}`},
+   {headers:
+    {
+      'Authorization':`Bearer${authToken}`
+    }}).then(
      resp=>(this.refreshItems())).then(resp=>(this.closeForm())).catch(
        error =>(this.setState({error:"error occured while saving note"}))
      )));
@@ -343,11 +366,19 @@ saveNote =(item)=>{
 
 }
 
-saveTodo =(item)=>{
+saveTodo =(item,uuid)=>{
+  let authToken =this.context;
+  let useruuid =uuid;
+
   const filteredTodo = this.state.todoItems;
   const m = filteredTodo.filter(item=>(item.description!==""));
   m.map(item=> 
-    (axios.post(`${this.apiUrl}/api/todos/`,item, {headers:{'X-CSRFToken':this.csrfToken}}).then(
+    (
+      axios.post(`${this.apiUrl}/api/todos/`,{...item,"todo_owner":`${useruuid}`}, 
+    {
+      headers:
+      {'Authorization':`Bearer${authToken}`}
+    }).then(
       resp=>this.refreshItems()).then(resp=>this.closeForm()).catch(error=>(this.setState({error:"Error occured while saving note"})))));
 
   return ; 
@@ -355,7 +386,14 @@ saveTodo =(item)=>{
 }
 
 refreshItems = () =>{
-axios.get(`${this.apiUrl}/api/todos/`).
+  let authToken = this.context;
+axios.get(`${this.apiUrl}/api/todos/`,
+{headers:
+  {
+    'Authorization':`JWT${authToken}`
+  }
+}
+).
 then(
   resp=>(this.setState({items:resp.data}))
 ).catch(error=>(this.setState({error:"couldn't  refresh item"})))
@@ -372,22 +410,31 @@ usersCompletedTodoNumber = ()=>{
 
 
 deleteItemPermanently =(item) =>{
-  console.log(this.csrfToken);
-  axios.delete(`${this.apiUrl}/api/todos/${item.id}`,{headers:{'X-CSRFToken':this.csrfToken}}).
+  let authToken =this.context;
+  axios.delete(`${this.apiUrl}/api/todos/${item.id}`,
+  {headers:
+    {'Authorization':`Bearer${authToken}`}
+  }).
   then(resp=>this.refreshItems()).then(resp=>this.closeForm()).catch(
     error=>(this.setState({error:"couldn't delete try agian later"} ))
   )
 }
 
 markItemAsCompleted =(item)=>{
-
+  let authToken = this.context;
 if(item.id){
   const activeItem = this.state.activeItem;
 
   const itemToMoveToNote = {...activeItem};
   itemToMoveToNote.completed =true;
 
-    axios.put(`${this.apiUrl}/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
+    axios.put(`${this.apiUrl}/api/todos/${item.id}/`,
+    itemToMoveToNote,
+    {headers:
+      {
+        'Authorization':`Bearer${authToken}`
+      }}
+    ).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
       error=>(this.setState({error:"couldn't update  "})));
       return;
@@ -397,13 +444,19 @@ if(item.id){
 }
 
 markItemAsNote =(item)=>{
+  let authToken = this.context;
   if(item.id){
   const activeItem = this.state.activeItem;
 
   const itemToMoveToNote = {...activeItem};
   itemToMoveToNote.draft =true;
 
-    axios.put(`${this.apiUrl}/api/todos/${item.id}/`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
+    axios.put(`${this.apiUrl}/api/todos/${item.id}/`,itemToMoveToNote,
+    {headers:
+      {
+        'Authorization':`Bearer${authToken}`
+      }
+    }).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
       error=>(this.setState({error:"couldn't update  "})));
       return;
@@ -412,13 +465,19 @@ markItemAsNote =(item)=>{
 }}
 
 markItemAsTodayTodo=(item)=>{
+  let authToken = this.context;
   if(item.id){
   const activeItem = this.state.activeItem;
 
   const itemToMoveToNote = {...activeItem};
   itemToMoveToNote.draft =false;
 
-    axios.put(`${this.apiUrl}/api/todos/${item.id}`,itemToMoveToNote,{headers:{'X-CSRFToken':this.csrfToken}}).
+    axios.put(`${this.apiUrl}/api/todos/${item.id}`,itemToMoveToNote,
+    {headers:
+      {
+        'Authorization':`Bearer${authToken}`
+      }
+    }).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
       error=>(this.setState({error:"couldn't update  "})));
       return;
@@ -428,7 +487,13 @@ markItemAsTodayTodo=(item)=>{
 
 
 updateItemDescription =(item)=>{
-  axios.put(`${this.apiUrl}/api/todos/${item.id}/`,item,{headers:{'X-CSRFToken':this.csrfToken}}).
+  let authToken = this.context;
+  axios.put(`${this.apiUrl}/api/todos/${item.id}/`,item,
+  {headers:
+    {
+      'Authorization':`Bearer${authToken}`
+    }
+}).
   then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
     error=>(this.setState({error:"couldn't update  "})));
     return;
@@ -537,9 +602,10 @@ return this.setState({currentPageView:1})
   {this.state.currentPageView===2? 
      <TodayTodoForm 
      item ={this.state.todoItems} 
+    
      addFormFieldForTodo ={this.addFormFieldForTodo} 
      removeFormFieldForTodo={this.removeFormFieldForTodo} 
-
+     
 
 
      TodoInputChange ={this.TodoInputChange}
@@ -550,7 +616,9 @@ return this.setState({currentPageView:1})
         
     <NoteForm  
     item ={this.state.noteItems}
+   
     close ={this.closeForm}
+   
     NoteInputChange ={this.NoteInputChange}
     addFormField  ={this.addFormField}
     removeFormField ={this.removeFormField}

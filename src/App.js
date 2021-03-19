@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
@@ -8,14 +8,27 @@ import Login from "./components/loginform";
 import Signup from "./components/signupform";
 import Calc from ".//calculator/calculator";
 import ResetPassword from "./components/forgotpassword";
+import ConfirmResetPassword from "./components/confirmresetpassword";
 import MainApp from "./MainApp";
-
+import VerifyEmail from './components/verifyemail';
+import { AuthContext,UuidContext } from "./context/authcontext";
 function App() {
-
+  const [authTokens, setAuthTokens] = useState();
+  const [userUuid, setUserUuid] = useState();
+   const setToken =(data)=>{
+    localStorage.setItem("access_token", JSON.stringify(data));
+    setAuthTokens(data);
+   }
+   const setUuid =(data)=>{
+     localStorage.setItem("todo_owner",JSON.stringify(data));
+     setUserUuid(data);
+   }
     return (
       <div className="App">
-          <BrowserRouter>
+         <BrowserRouter>
           <Switch>
+         <AuthContext.Provider value={{authTokens,setAuthTokens:setToken}}>
+           <UuidContext.Provider value={{userUuid, setUserUuid:setUuid}}>
       <Route exact path="/" >
         <MainApp />
       </Route>
@@ -23,8 +36,13 @@ function App() {
       <Route exact path="/signup/" component={Signup}/>
       <Route exact path="/calc/" component={Calc}/>
       <Route exact  path="/reset-password/" component={ResetPassword}/>
-      </Switch>  
+      <Route exact path="/reset/confirm/:uid/:token/" component={ConfirmResetPassword}/>
+      <Route exact path="/account/account-confirm-email/:key/" component={VerifyEmail}/>
+        </UuidContext.Provider>
+      </AuthContext.Provider> 
+      </Switch> 
     </BrowserRouter> 
+ 
       </div>
     );
   }

@@ -1,15 +1,9 @@
 import React, {Component} from 'react';
-
-export default class TodayTodoForm extends Component{
-    constructor(props){
-        super(props)
-        this.state ={
-            todoItem: this.props.item,
-                }
-    }
-
-    render(){
-      const {item, close, TodoInputChange,addFormFieldForTodo, removeFormFieldForTodo, saveTodo} = this.props;
+import {useUuid, useAuth} from "../context/authcontext";
+export default function TodayTodoForm(props) {
+    
+      const {item,owner, ownerChange, close, TodoInputChange,addFormFieldForTodo, removeFormFieldForTodo, saveTodo} = props;
+      const {userUuid}  = useUuid();
       return(
       <React.Fragment>
           
@@ -43,17 +37,14 @@ export default class TodayTodoForm extends Component{
       
         
             
-        
-     
-      
+       
       <div className ="center-align">
         <input type="button" className ="btn btn-tertiary"
         value ="Cancel" onClick ={() =>close()}/>
-        <input type="button" className ="button-primary" onClick ={()=>saveTodo(item)} value ="Save"/></div>
+        <input type="button" className ="button-primary" onClick ={()=>saveTodo(item,userUuid)} value ="Save"/></div>
      
     </form>
 
   </React.Fragment>)
       ;
   }
-}
