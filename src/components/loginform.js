@@ -5,7 +5,7 @@ import {Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import {rootUrl} from "../utilities/constants";
-import * as yup from "yup";
+
 import {useForm} from "react-hook-form";
 import { loginEndpoint } from "../utilities/endpoints";
 import {useAuth,useUuid} from "../context/authcontext";
@@ -41,7 +41,9 @@ export default function Login(props){
     return <Redirect push to = {{pathname:"/"}} />;
   }
  else{
-  return(<form onSubmit={handleSubmit(logUserIn)}>
+  return(<React.Fragment>
+   <span>{isError && <span className="error-message">Email or  password is incorrect </span>}</span>
+    <form onSubmit={handleSubmit(logUserIn)} className="auth-form">
   <div className ="form-row form-margin margin-bottom">
                 <div className ="col">
                     <input type ="email" name ="email" placeholder ="Email" 
@@ -60,7 +62,7 @@ export default function Login(props){
                 </div>
                 <div className ="form-row form-margin place-order-signup">
             <div className ="col">
-                <input type ="password" placeholder =" Create Password" 
+                <input type ="password" placeholder ="  Password" 
                     className ="form-control" name ="password" 
                  
                     ref={register({
@@ -70,9 +72,11 @@ export default function Login(props){
                     )}
                     
             </div>
-            
-        </div>
-  <input type="submit" value="Login"/>
-</form>);
+            </div>
+  <input type="submit" className="auth-button" value="Login"/>
+</form>
+ <div><span>Forgot your password <Link to="/reset-password"  className="startdo-link">Reset</Link></span></div>
+ <div><span>New to startdo <Link to="/signup"  className="startdo-link"> Sign up</Link></span> </div>
+ </React.Fragment>);
 }
 }

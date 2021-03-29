@@ -3,14 +3,14 @@ import {useUuid, useAuth} from "../context/authcontext";
 
 export default function NoteForm(props)
     {
-        const {item,close, NoteInputChange,addFormField, removeFormField, saveNote} = props;
+        const {item,close, NoteInputChange,addFormField, removeFormField, saveNote, isLoggedIn} = props;
         const {userUuid}  = useUuid();
         return(
         <React.Fragment>
             
       <form className ="form-default">
-      
-        <h1 class=" form-header ">  Future tasks </h1>
+      <p className="error-message">{isLoggedIn?"":"Login to your account to save  "}</p>
+        <h3 className="form-header" >  Future tasks </h3>
         
        
         

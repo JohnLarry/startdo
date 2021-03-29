@@ -217,11 +217,48 @@ $done-color: #313146;
   color: #fff;
   background-color: #323f7f;
 }
-.form-header{
+.menu-header{
   background-color: #ffc7d2;
   padding: 3px;
   color: $primary-color;
+  display: flex;
+  justify-content: space-between;
+  
+}
+.menu-header ul{
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+}
+.form-header{
+
+  padding: 3px;
+  color: $primary-color;
   text-align: center;
+}
+.error-message{
+  color:#fff;
+  background-color: #db1009;
+  max-width:max-content;
+}
+.auth-form{
+
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-basis: 20px;
+  flex-direction: column;
+  margin-top: 10% ;
+}
+.auth-form input,button{
+  margin:  5px;
+}
+.auth-button{
+  width: 10em;
+  border-radius: 5px;
+  color:  #fff;
+  background-color: #ffc7d2;
 }
 .btn-bg-transparent{
   background-color: transparent;
@@ -290,6 +327,19 @@ $done-color: #313146;
     min-height: 200px;
   
   }
+}
+.startdo-link{
+  color: #323f7f;
+}
+.reset-password{
+  color: #323f7f;
+}
+.reset-email-sent{
+  height: 20em;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: #ffc7d2;
+  margin-top: 10%;
 }
 .done-selector{
 

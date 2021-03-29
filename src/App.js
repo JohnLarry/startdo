@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
@@ -12,6 +12,7 @@ import ConfirmResetPassword from "./components/confirmresetpassword";
 import MainApp from "./MainApp";
 import VerifyEmail from './components/verifyemail';
 import { AuthContext,UuidContext } from "./context/authcontext";
+import MenuBar from "./components/menubar";
 function App() {
   const [authTokens, setAuthTokens] = useState();
   const [userUuid, setUserUuid] = useState();
@@ -23,13 +24,29 @@ function App() {
      localStorage.setItem("todo_owner",JSON.stringify(data));
      setUserUuid(data);
    }
+   const getTokenAndgetUserUuid=()=>{
+     if(localStorage.getItem("access_token")&&localStorage.getItem("todo_owner")){
+       const token =JSON.parse(localStorage.getItem("access_token"));
+       const id =JSON.parse(localStorage.getItem("todo_owner"));
+      setAuthTokens(token);
+      setUserUuid(id);
+     }
+
+   }
+   useEffect(() => {
+    getTokenAndgetUserUuid();
+  }, []);
+
+   
     return (
       <div className="App">
          <BrowserRouter>
           <Switch>
+            
          <AuthContext.Provider value={{authTokens,setAuthTokens:setToken}}>
            <UuidContext.Provider value={{userUuid, setUserUuid:setUuid}}>
       <Route exact path="/" >
+      <MenuBar loginToken ={setAuthTokens} loginId ={setUserUuid}/>
         <MainApp />
       </Route>
       <Route exact path="/login/" component={Login}/>

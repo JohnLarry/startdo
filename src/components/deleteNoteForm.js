@@ -2,14 +2,12 @@ import { Component } from "react";
 
 export default class DeleteNoteForm extends Component{
     render(){
-        const item = this.props.item
-        const closeNoteForm =this.props.closeForm
-        const deleteItemPermanently =this.props.deleteItemPermanently
-       const moveToTodayTodo =this.props.moveToTodayTodo
+        const {item, closeNoteForm, deleteItemPermanently, moveToTodayTodo, isLoggedIn} =this.props;
         
 
         return(
         <form className ="form-default" >
+             <p className="error-message">{isLoggedIn?"":"Login to your account to to move or delete "}</p>
              <h1 class="form-header">  Today or Never </h1>
             <div className="delete-span-div">
                 <span>{item.description}</span>

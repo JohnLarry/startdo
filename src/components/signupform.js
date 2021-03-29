@@ -33,8 +33,8 @@ export default function SignUp (props){
   }
  else{
   return(
-
-    <form onSubmit={handleSubmit(RegisterUser)}>
+<React.Fragment>
+    <form onSubmit={handleSubmit(RegisterUser)} className="auth-form">
     <div className ="form-row form-margin margin-bottom">
                 <div className ="col">
                     <input type ="email" name ="email" placeholder ="Email" 
@@ -83,8 +83,8 @@ export default function SignUp (props){
                   <p style={{ color: "red" }}>{errors.password2.message}</p>
                  )}
             </div></div>
-    <input type="submit"  value ="Register"/>
+    <input type="submit"  value ="Register" className="auth-button"/>
   </form>
-
-);
+  <div><span>Already registered</span><Link to="/login" className="startdo-link">Login</Link></div>
+  </React.Fragment>);
 }}

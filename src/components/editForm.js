@@ -4,13 +4,11 @@ import {useUuid, useAuth} from "../context/authcontext";
 export default function EditForm (props){
 
    
-        const item =props.item;
-        const closeEditForm =props.closeEditForm;
-        const update = props.update;
-        const updateItemChanges =props.updateItemChanges;
+        const {item, closeEditForm,update, updateItemChanges, isLoggedIn }  = props;
+        
         const {authTokens} = useAuth();
         const {userUuid}  = useUuid();
-        const [isLoggedIn, setLoggedIn] = useState(false);
+   
       
 
       
@@ -18,6 +16,7 @@ export default function EditForm (props){
             <React.Fragment>
                
             <form   className ="form-default" >
+            <p className="error-message">{isLoggedIn?"":"Login to your account to save  "}</p>
             <h1 className ="form-header" >Edit</h1>
                 <div className="editform-textarea-div">
                     <textarea  name ="description" onChange ={(e)=>updateItemChanges(e)} value ={item.description} className="editform-textarea"/>

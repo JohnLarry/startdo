@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import {useUuid, useAuth} from "../context/authcontext";
 export default function TodayTodoForm(props) {
     
-      const {item,owner, ownerChange, close, TodoInputChange,addFormFieldForTodo, removeFormFieldForTodo, saveTodo} = props;
+      const {item,owner, ownerChange, close, TodoInputChange,addFormFieldForTodo, removeFormFieldForTodo, saveTodo, isLoggedIn} = props;
       const {userUuid}  = useUuid();
       return(
       <React.Fragment>
           
     <form className ="form-default" >
-
-      <h1 class="form-header">  Today todo </h1>
+    <p className="error-message">{isLoggedIn?"":"Login to your account to save  "}</p>
+      <h3 className="form-header">  Today todo </h3>
      
      
       

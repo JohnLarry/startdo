@@ -1,4 +1,4 @@
-import React, { useState,Component }  from 'react';
+import React, { useState,Component , useEffect}  from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, Carddescription, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
 import TodayTodoForm from './components/todayTodoItemsForm';
@@ -25,6 +25,7 @@ class  MainApp  extends Component{
      this.utcDate =this.todaysDate.getUTCDate;
       this.apiUrl = rootUrl;
     this.state ={
+      isLoggedIn :false,
       my_number:{},
       currentTab:1,
       itemCompleted:false,
@@ -100,11 +101,23 @@ class  MainApp  extends Component{
   }
  
 componentDidMount(){
- 
+  this.checkLoginStatus();
   this.refreshItems();
   this.usersCompletedTodoNumber();
 }
-
+componentDidUpdate(){
+  this.refreshItems();
+  this.usersCompletedTodoNumber();
+}
+checkLoginStatus(){
+  
+  if(localStorage.getItem("access_token")!==null){
+    return this.setState({isLoggedIn:true});
+}
+else{
+  return this.setState({isLoggedIn:false});
+}
+}
   placeholdernoteItems=[{
     description:"",
     completed:false,
@@ -349,7 +362,7 @@ removeFormFieldForTodo =(i)=>{
 /* save note items*/
 
 saveNote =(item,uuid)=>{
-  let authToken =this.context;
+  let {authTokens} =this.context;
   let useruuid =uuid;
   let todo_owner =this.state.todoOwner;
   const notes =this.state.noteItems;
@@ -357,17 +370,17 @@ saveNote =(item,uuid)=>{
    m.map(item=>(axios.post(`${this.apiUrl}/api/todos/`,{...item,"todo_owner":`${useruuid}`},
    {headers:
     {
-      'Authorization':`Bearer${authToken}`
+      'Authorization':`Bearer ${authTokens}`
     }}).then(
      resp=>(this.refreshItems())).then(resp=>(this.closeForm())).catch(
-       error =>(this.setState({error:"error occured while saving note"}))
+       error =>(this.checkLoginStatus())
      )));
    return ;
 
 }
 
 saveTodo =(item,uuid)=>{
-  let authToken =this.context;
+  let {authTokens} =this.context;
   let useruuid =uuid;
 
   const filteredTodo = this.state.todoItems;
@@ -377,51 +390,60 @@ saveTodo =(item,uuid)=>{
       axios.post(`${this.apiUrl}/api/todos/`,{...item,"todo_owner":`${useruuid}`}, 
     {
       headers:
-      {'Authorization':`Bearer${authToken}`}
-    }).then(
-      resp=>this.refreshItems()).then(resp=>this.closeForm()).catch(error=>(this.setState({error:"Error occured while saving note"})))));
+      {'Authorization':`Bearer ${authTokens}`}}).then(resp=>(this.closeForm())).catch(
+        error =>(this.checkLoginStatus())
+        )));
 
   return ; 
 
 }
 
 refreshItems = () =>{
-  let authToken = this.context;
+  let {authTokens} = this.context;
+  
+  
+    console.log(authTokens);
+ 
 axios.get(`${this.apiUrl}/api/todos/`,
 {headers:
   {
-    'Authorization':`JWT${authToken}`
-  }
+    'Authorization':`Bearer ${authTokens}` }
 }
 ).
 then(
   resp=>(this.setState({items:resp.data}))
-).catch(error=>(this.setState({error:"couldn't  refresh item"})))
-
+).catch(error=>(this.checkLoginStatus()))
+return;
 }
 usersCompletedTodoNumber = ()=>{
- axios.get(`${this.apiUrl}/api/todos/my_numbers/`).
+  let {authTokens} = this.context;
+ axios.get(`${this.apiUrl}/api/todos/my_numbers/`,
+ {headers:
+  {
+    'Authorization':`Bearer ${authTokens}` }
+}
+ ).
   then(
     resp=>(this.setState({my_number:resp.data}))).
-  catch(error=>(this.setState({error:"Please try again"})));
+  catch(error=>(this.checkLoginStatus()));
   
  }
 
 
 
 deleteItemPermanently =(item) =>{
-  let authToken =this.context;
+  let {authTokens} =this.context;
   axios.delete(`${this.apiUrl}/api/todos/${item.id}`,
   {headers:
-    {'Authorization':`Bearer${authToken}`}
+    {'Authorization':`Bearer ${authTokens}`}
   }).
   then(resp=>this.refreshItems()).then(resp=>this.closeForm()).catch(
-    error=>(this.setState({error:"couldn't delete try agian later"} ))
+    error=>(this.checkLoginStatus())
   )
 }
 
 markItemAsCompleted =(item)=>{
-  let authToken = this.context;
+  let {authTokens} = this.context;
 if(item.id){
   const activeItem = this.state.activeItem;
 
@@ -432,11 +454,11 @@ if(item.id){
     itemToMoveToNote,
     {headers:
       {
-        'Authorization':`Bearer${authToken}`
+        'Authorization':`Bearer ${authTokens}`
       }}
     ).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
-      error=>(this.setState({error:"couldn't update  "})));
+      error=>(this.checkLoginStatus()));
       return;
 
 
@@ -444,7 +466,7 @@ if(item.id){
 }
 
 markItemAsNote =(item)=>{
-  let authToken = this.context;
+  let {authTokens} = this.context;
   if(item.id){
   const activeItem = this.state.activeItem;
 
@@ -454,32 +476,32 @@ markItemAsNote =(item)=>{
     axios.put(`${this.apiUrl}/api/todos/${item.id}/`,itemToMoveToNote,
     {headers:
       {
-        'Authorization':`Bearer${authToken}`
+        'Authorization':`Bearer ${authTokens}`
       }
     }).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
-      error=>(this.setState({error:"couldn't update  "})));
+      error=>(this.checkLoginStatus()));
       return;
 
 
 }}
 
 markItemAsTodayTodo=(item)=>{
-  let authToken = this.context;
+  let {authTokens} = this.context;
   if(item.id){
   const activeItem = this.state.activeItem;
 
   const itemToMoveToNote = {...activeItem};
   itemToMoveToNote.draft =false;
 
-    axios.put(`${this.apiUrl}/api/todos/${item.id}`,itemToMoveToNote,
+    axios.put(`${this.apiUrl}/api/todos/${item.id}/`,itemToMoveToNote,
     {headers:
       {
-        'Authorization':`Bearer${authToken}`
+        'Authorization':`Bearer ${authTokens}`
       }
     }).
     then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
-      error=>(this.setState({error:"couldn't update  "})));
+      error=>(this.checkLoginStatus()));
       return;
 
 
@@ -487,15 +509,15 @@ markItemAsTodayTodo=(item)=>{
 
 
 updateItemDescription =(item)=>{
-  let authToken = this.context;
+  let {authTokens} = this.context;
   axios.put(`${this.apiUrl}/api/todos/${item.id}/`,item,
   {headers:
     {
-      'Authorization':`Bearer${authToken}`
+      'Authorization':`Bearer ${authTokens}`
     }
 }).
   then(resp =>this.refreshItems()).then(resp=>this.closeForm()).catch(
-    error=>(this.setState({error:"couldn't update  "})));
+    error=>(this.checkLoginStatus()));
     return;
 }
 
@@ -557,6 +579,7 @@ return this.setState({currentPageView:1})
       {this.state.currentPageView===1?
       
     <div >
+      <div>{this.state.isLoggedIn?"":"Login to your account to view and save your data "}</div>
       <div className ="todomenu-scrolling-wrapper">
           <div className ={`todo-btn ${this.state.currentTab===1?'todobuton-active':''}`} onClick ={()=>this.toggleList(false,1)}>future<Link  to ="/login/"/></div>
           <div className ={`todo-btn ${  this.state.currentTab===2?'todobuton-active':''}`} onClick ={()=>this.toggleList(false,2)}>Today</div>
@@ -602,6 +625,7 @@ return this.setState({currentPageView:1})
   {this.state.currentPageView===2? 
      <TodayTodoForm 
      item ={this.state.todoItems} 
+     isLoggedIn ={this.state.isLoggedIn}
     
      addFormFieldForTodo ={this.addFormFieldForTodo} 
      removeFormFieldForTodo={this.removeFormFieldForTodo} 
@@ -616,7 +640,7 @@ return this.setState({currentPageView:1})
         
     <NoteForm  
     item ={this.state.noteItems}
-   
+    isLoggedIn ={this.state.isLoggedIn}
     close ={this.closeForm}
    
     NoteInputChange ={this.NoteInputChange}
@@ -627,21 +651,26 @@ return this.setState({currentPageView:1})
    {this.state.currentPageView===4?
     <EditForm
     item ={this.state.activeItem}
+    isLoggedIn ={this.state.isLoggedIn}
     update ={this.updateItemDescription}
     closeEditForm ={this.closeForm}
     updateItemChanges ={this.updateItemChanges}
     />:""}
 
 {this.state.currentPageView===5?
-    <DeleteTodoForm   item = {this.state.activeItem}
+    <DeleteTodoForm   
+        item = {this.state.activeItem}
+        isLoggedIn ={this.state.isLoggedIn}
          closeDeleteForm ={this.closeForm}
          markAsCompleted ={this.markItemAsCompleted}
         moveToFuture = {this.markItemAsNote}
         />:""}
 
 {this.state.currentPageView===6?
-<DeleteNoteForm   item = {this.state.activeItem}
-         closeForm ={this.closeForm}
+<DeleteNoteForm   
+        item = {this.state.activeItem}
+        isLoggedIn ={this.state.isLoggedIn}
+         closeNoteForm ={this.closeForm}
          deleteItemPermanently ={this.deleteItemPermanently}
         moveToTodayTodo = {this.markItemAsTodayTodo}
         />:""}
