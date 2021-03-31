@@ -412,7 +412,7 @@ saveNote =(item,uuid)=>{
       'Authorization':`Bearer ${authTokens}`
     }}).then(
      resp=>(
-       this.refreshItems())).then(resp=>this.setState({noteItems:placeholdertodoItems})).then(resp=>(this.closeForm())).catch(
+       this.refreshItems())).then(resp=>this.setState({noteItems:this.placeholdertodoItems})).then(resp=>(this.closeForm())).catch(
        error =>(this.checkLoginStatus())
      )));
    return ;
