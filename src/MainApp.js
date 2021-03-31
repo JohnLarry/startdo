@@ -124,7 +124,39 @@ checkLoginStatus(){
 else{
   return this.setState({isLoggedIn:false});
 }
-}
+};
+placeholdertodoItems = [{
+        
+  description:"",
+  completed:false,
+  draft:false,
+},{
+  
+  description:"",
+  completed:false,
+  draft:false,
+},{
+  
+  description:"",
+  completed:false,
+  draft:false,
+},{
+  
+  description:"",
+  completed:false,
+  draft:false,
+},{
+ 
+  description:"",
+  completed:false,
+  draft:false,
+},{
+ 
+  description:"",
+  completed:false,
+  draft:false,
+}];
+
   placeholdernoteItems=[{
     description:"",
     completed:false,
@@ -149,7 +181,7 @@ else{
     description:"",
     completed:false,
     draft:true,
-  }]
+  }];
   
 
  NoteInputChange =(e,i)=>{
@@ -379,7 +411,8 @@ saveNote =(item,uuid)=>{
     {
       'Authorization':`Bearer ${authTokens}`
     }}).then(
-     resp=>(this.refreshItems())).then(resp=>(this.closeForm())).catch(
+     resp=>(
+       this.refreshItems())).then(resp=>this.setState({noteItems:placeholdertodoItems})).then(resp=>(this.closeForm())).catch(
        error =>(this.checkLoginStatus())
      )));
    return ;
