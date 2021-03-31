@@ -411,8 +411,11 @@ saveNote =(item,uuid)=>{
     {
       'Authorization':`Bearer ${authTokens}`
     }}).then(
-     resp=>(
-       this.refreshItems())).then(resp=>this.setState({noteItems:this.placeholdertodoItems})).then(resp=>(this.closeForm())).catch(
+     resp=>{
+       this.refreshItems();
+       this.setState({noteItems:this.placeholdernoteItems});
+        this.closeForm();
+       }).catch(
        error =>(this.checkLoginStatus())
      )));
    return ;
@@ -431,7 +434,11 @@ saveTodo =(item,uuid)=>{
     {
       headers:
       {'Authorization':`Bearer ${authTokens}`}}).then(
-        resp=>(this.refreshItems())).then(resp=>(this.closeForm())).catch(
+        resp=>{
+          this.refreshItems();
+          this.setState({noteItems:this.placeholdertodoItems});
+           this.closeForm();
+          }).catch(
         error =>(this.checkLoginStatus())
         )));
 
