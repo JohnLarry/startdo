@@ -26,6 +26,7 @@ class  MainApp  extends Component{
       this.apiUrl = rootUrl;
     this.state ={
       isLoggedIn :false,
+      isRefreshed: false,
       my_number:{},
       currentTab:1,
       itemCompleted:false,
@@ -99,15 +100,21 @@ class  MainApp  extends Component{
       }]
     }
   }
- 
+ onRefreshCheckIfTokenExists = this.props.checkIfLoginExists;
+
 componentDidMount(){
+  this.onRefreshCheckIfTokenExists();
   this.checkLoginStatus();
-  this.refreshItems();
-  this.usersCompletedTodoNumber();
+    this.refreshItems();
+    this.usersCompletedTodoNumber();
+  
 }
-componentDidUpdate(){
+componentDidUpdate(prevProps, prevState, sp){
+  if(prevState.isRefreshed === false) {    
   this.refreshItems();
   this.usersCompletedTodoNumber();
+ 
+}
 }
 checkLoginStatus(){
   
@@ -403,7 +410,7 @@ refreshItems = () =>{
   
   
     console.log(authTokens);
- 
+ if(authTokens!==null){
 axios.get(`${this.apiUrl}/api/todos/`,
 {headers:
   {
@@ -411,12 +418,17 @@ axios.get(`${this.apiUrl}/api/todos/`,
 }
 ).
 then(
-  resp=>(this.setState({items:resp.data}))
-).catch(error=>(this.checkLoginStatus()))
+  resp=>{
+    this.setState({items:resp.data})
+    //isRefreshed is set true to stop infinite loop in componentdidupdate 
+    this.setState({isRefreshed:true})
+}
+).catch(error=>(this.checkLoginStatus()))}
 return;
 }
 usersCompletedTodoNumber = ()=>{
   let {authTokens} = this.context;
+  if(authTokens!==null){
  axios.get(`${this.apiUrl}/api/todos/my_numbers/`,
  {headers:
   {
@@ -424,9 +436,12 @@ usersCompletedTodoNumber = ()=>{
 }
  ).
   then(
-    resp=>(this.setState({my_number:resp.data}))).
-  catch(error=>(this.checkLoginStatus()));
-  
+    resp=>{this.setState({my_number:resp.data})
+  //isRefreshed is set true to stop infinite loop in componentdidupdate 
+  this.setState({isRefreshed:true})
+  }).
+  catch(error=>(this.checkLoginStatus()));}
+  return;
  }
 
 

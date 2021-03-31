@@ -14,6 +14,7 @@ import VerifyEmail from './components/verifyemail';
 import { AuthContext,UuidContext } from "./context/authcontext";
 import MenuBar from "./components/menubar";
 function App() {
+  const [isRefreshed, setRefreshed] =useState(false);
   const [authTokens, setAuthTokens] = useState();
   const [userUuid, setUserUuid] = useState();
    const setToken =(data)=>{
@@ -30,6 +31,9 @@ function App() {
        const id =JSON.parse(localStorage.getItem("todo_owner"));
       setAuthTokens(token);
       setUserUuid(id);
+      setRefreshed(true);
+      console.log("getToken");
+      return true;
      }
 
    }
@@ -47,7 +51,7 @@ function App() {
            <UuidContext.Provider value={{userUuid, setUserUuid:setUuid}}>
       <Route exact path="/" >
       <MenuBar loginToken ={setAuthTokens} loginId ={setUserUuid}/>
-        <MainApp />
+        <MainApp checkIfLoginExists ={getTokenAndgetUserUuid}/>
       </Route>
       <Route exact path="/login/" component={Login}/>
       <Route exact path="/signup/" component={Signup}/>
