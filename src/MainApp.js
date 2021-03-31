@@ -97,7 +97,65 @@ class  MainApp  extends Component{
         description:"",
         completed:false,
         draft:true,
-      }]
+      }],
+      placeholdertodoItems : [{
+        
+        description:"",
+        completed:false,
+        draft:false,
+      },{
+        
+        description:"",
+        completed:false,
+        draft:false,
+      },{
+        
+        description:"",
+        completed:false,
+        draft:false,
+      },{
+        
+        description:"",
+        completed:false,
+        draft:false,
+      },{
+       
+        description:"",
+        completed:false,
+        draft:false,
+      },{
+       
+        description:"",
+        completed:false,
+        draft:false,
+      }],
+      
+        placeholdernoteItems:[{
+          description:"",
+          completed:false,
+          draft:true,
+        },{
+          description:"",
+          completed:false,
+          draft:true,
+        },{
+          description:"",
+          completed:false,
+          draft:true,
+        },{
+          description:"",
+          completed:false,
+          draft:true,
+        },{
+          description:"",
+          completed:false,
+          draft:true,
+        },{
+          description:"",
+          completed:false,
+          draft:true,
+        }],
+        
     }
   }
  onRefreshCheckIfTokenExists = this.props.checkIfLoginExists;
@@ -413,8 +471,9 @@ saveNote =(item,uuid)=>{
     }}).then(
      resp=>{
        this.refreshItems();
+       this.closeForm();
        this.setState({noteItems:this.placeholdernoteItems});
-        this.closeForm();
+        
        }).catch(
        error =>(this.checkLoginStatus())
      )));
@@ -436,7 +495,7 @@ saveTodo =(item,uuid)=>{
       {'Authorization':`Bearer ${authTokens}`}}).then(
         resp=>{
           this.refreshItems();
-          this.setState({noteItems:this.placeholdertodoItems});
+          this.setState({todoItems:this.state.placeholdertodoItems});
            this.closeForm();
           }).catch(
         error =>(this.checkLoginStatus())
