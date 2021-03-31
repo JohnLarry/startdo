@@ -397,7 +397,8 @@ saveTodo =(item,uuid)=>{
       axios.post(`${this.apiUrl}/api/todos/`,{...item,"todo_owner":`${useruuid}`}, 
     {
       headers:
-      {'Authorization':`Bearer ${authTokens}`}}).then(resp=>(this.closeForm())).catch(
+      {'Authorization':`Bearer ${authTokens}`}}).then(
+        resp=>(this.refreshItems())).then(resp=>(this.closeForm())).catch(
         error =>(this.checkLoginStatus())
         )));
 
