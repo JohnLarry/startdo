@@ -486,6 +486,7 @@ saveTodo =(item,uuid)=>{
   let useruuid =uuid;
 
   const filteredTodo = this.state.todoItems;
+  const placeholderTodo = this.state.placeholdertodoItems;
   const m = filteredTodo.filter(item=>(item.description!==""));
   m.map(item=> 
     (
@@ -494,9 +495,10 @@ saveTodo =(item,uuid)=>{
       headers:
       {'Authorization':`Bearer ${authTokens}`}}).then(
         resp=>{
+          this.closeForm();
           this.refreshItems();
-          this.setState({todoItems:this.state.placeholdertodoItems});
-           this.closeForm();
+          this.setState({todoItems:placeholderTodo});
+          
           }).catch(
         error =>(this.checkLoginStatus())
         )));
