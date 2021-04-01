@@ -497,7 +497,7 @@ saveTodo =(item,uuid)=>{
         resp=>{
           this.closeForm();
           this.refreshItems();
-          this.setState({todoItems:placeholderTodo});
+          this.setState({todoItems:this.placeholdertodoItems});
           
           }).catch(
         error =>(this.checkLoginStatus())
@@ -688,6 +688,8 @@ return this.setState({currentPageView:6});
 
 closeForm =()=>{
 const {currentPageView} =this.state;
+this.setState({noteItems:this.placeholdernoteItems});
+this.setState({todoItems:this.placeholdertodoItems});
 return this.setState({currentPageView:1})
 
 }
