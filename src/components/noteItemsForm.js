@@ -8,7 +8,7 @@ export default function NoteForm(props)
         return(
         <React.Fragment>
             
-      <form className ="form-default">
+      <form className ="form-default" >
       <p className="error-message">{isLoggedIn?"":"Login to your account to save  "}</p>
         <h3 className="form-header" >  Future tasks </h3>
         

@@ -7,9 +7,9 @@ export default function TodayTodoForm(props) {
       return(
       <React.Fragment>
           
-    <form className ="form-default" >
-    <p className="error-message">{isLoggedIn?"":"Login to your account to save  "}</p>
-      <h3 className="form-header">  Today todo </h3>
+    <form className ="form-default">
+    <div className="login-error-message">{isLoggedIn?"":<div><span>Login to your account to save </span></div>}</div>
+      <h3 className="form-header"> Schedule today tasks </h3>
      
      
       

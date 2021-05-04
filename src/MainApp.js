@@ -25,6 +25,7 @@ class  MainApp  extends Component{
      this.utcDate =this.todaysDate.getUTCDate;
       this.apiUrl = rootUrl;
     this.state ={
+      formKey:0,
       isLoggedIn :false,
       isRefreshed: false,
       my_number:{},
@@ -312,7 +313,7 @@ toggleList =(status,tabPosition) =>{
     
      }
     }
-    /* format completed date to avod to been converted to local time zone*/
+    /* format completed date to avoid to been converted to local time zone*/
 todoDateFormatter =(unformated_date)=>{
   var date =new Date(unformated_date);
   const hours = date.getUTCHours();
@@ -323,7 +324,7 @@ todoDateFormatter =(unformated_date)=>{
 todoToDisplay  =()=>{
 
   /*this.state.itemCompleted is set to true if done tab is clicked and to false when todo tab is clicked */
-  
+  if(this.state.items.length){
   const filteredList = this.state.items.filter(item=>(item.completed===this.state.itemCompleted &&item.draft===false))
   return filteredList.map(item =>(
     <li 
@@ -342,7 +343,8 @@ todoToDisplay  =()=>{
      
       </div>
       </div>  </li>
-    ));
+    ));}
+    return <p>Loading...</p>
   }
 
   completedTodoToDisplay  =()=>{
@@ -356,7 +358,8 @@ todoToDisplay  =()=>{
         key ={item.id}> 
         
          
-         {this.state.selectedDate==="1"&&isToday(new Date(item.completed_date))&&<span className ="list-item-content"> {item.description} {this.todoDateFormatter(item.completed_date)}</span> } 
+         {this.state.selectedDate==="1"&&isToday(new Date(item.completed_date))&&<span className ="list-item-content"> {item.description } {this.todoDateFormatter(item.completed_date)}</span> } 
+         
          {this.state.selectedDate==="2"&&isYesterday(new Date(item.completed_date))&& <span className ="list-item-content"> {item.description} {this.todoDateFormatter(item.completed_date)}</span> }  
          {this.state.selectedDate==="3"&&isThisWeek(new Date(item.completed_date))&& <span className ="list-item-content" >{item.description} </span>}
          {this.state.selectedDate==="4"&&isThisMonth(new Date(item.completed_date))&&<span className ="list-item-content" > { item.description} </span>}
@@ -368,6 +371,7 @@ todoToDisplay  =()=>{
     }
 
 upcommingTodo =()=>{
+  if(this.state.items.length){
   const upcommingTodoItem = this.state.items.filter(item=>item.draft===true);
   return upcommingTodoItem.map(item =>
   <li className ="future-todo" key ={item.id}>
@@ -383,6 +387,8 @@ upcommingTodo =()=>{
       </div>
       </div> 
   </li>);}
+return <p>Loading...</p>  
+}
     
 
 
@@ -522,8 +528,9 @@ axios.get(`${this.apiUrl}/api/todos/`,
 then(
   resp=>{
     this.setState({items:resp.data})
-    //isRefreshed is set true to stop infinite loop in componentdidupdate 
+    //isRefreshed is se...t true to stop infinite loop in componentdidupdate 
     this.setState({isRefreshed:true})
+    this.setState({formKey:this.state.formKey+1})
 }
 ).catch(error=>(this.checkLoginStatus()))}
 return;
@@ -688,8 +695,7 @@ return this.setState({currentPageView:6});
 
 closeForm =()=>{
 const {currentPageView} =this.state;
-this.setState({noteItems:this.placeholdernoteItems});
-this.setState({todoItems:this.placeholdertodoItems});
+this.setState({formKey:this.state.formKey+1})
 return this.setState({currentPageView:1})
 
 }
@@ -745,7 +751,7 @@ return this.setState({currentPageView:1})
      <TodayTodoForm 
      item ={this.state.todoItems} 
      isLoggedIn ={this.state.isLoggedIn}
-    
+     
      addFormFieldForTodo ={this.addFormFieldForTodo} 
      removeFormFieldForTodo={this.removeFormFieldForTodo} 
      
@@ -761,6 +767,7 @@ return this.setState({currentPageView:1})
     item ={this.state.noteItems}
     isLoggedIn ={this.state.isLoggedIn}
     close ={this.closeForm}
+   
    
     NoteInputChange ={this.NoteInputChange}
     addFormField  ={this.addFormField}

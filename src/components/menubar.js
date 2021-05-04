@@ -21,10 +21,10 @@ export default function MenuBar(props){
      
     return(
         <nav className="menu-header">
-            <header>
-                Daydo
+            <header className="company-header">
+                Chocko
             </header>    
-            <ul>
+            <ul className='auth-ul'>
                {isLoggedIn?
                <li ><input type ="button" onClick={logout} value="Logout" /></li> :
                <li><Link to="/login">Login</Link></li> }
