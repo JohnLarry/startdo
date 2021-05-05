@@ -9,7 +9,7 @@ export const confirmEmailEndpoint ="/account/account-confirm-email/";
 export const forgotPasswordEndpoint = "/account/password/reset/"
 
 //password reset confirm endpoint
-export const confirmPasswordResetEndpoint ="/password/reset/confirm/";
+export const confirmPasswordResetEndpoint = "/password-reset/confirm/";
 //change password endpoint
 export const changePasswordEndpoint = "/account/password/change/";
 //refresh token endpoint

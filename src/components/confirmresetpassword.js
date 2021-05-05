@@ -4,6 +4,7 @@ import {Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import {rootUrl} from "../utilities/constants";
+import {confirmPasswordResetEndpoint} from "../utilities/endpoints"
 import {useParams} from "react-router-dom"; 
 
 import {useForm} from "react-hook-form";
@@ -21,7 +22,7 @@ export default function ConfirmResetPassword (props){
 
     const ResetPassword =(item)=>{
             
-      axios.post(`${rootUrl}/signup/`,item,{headers:{'X-CSRFToken':csrfToken}}).then(
+      axios.post(`${rootUrl}${confirmPasswordResetEndpoint}`,item,{headers:{'X-CSRFToken':csrfToken}}).then(
        resp=>( setConfirmedReset(true))
        )   
        .catch(error=>error);

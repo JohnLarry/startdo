@@ -57,7 +57,7 @@ function App() {
       <Route exact path="/signup/" component={Signup}/>
       <Route exact path="/calc/" component={Calc}/>
       <Route exact  path="/reset-password/" component={ResetPassword}/>
-      <Route exact path="/reset/confirm/:uid/:token/" component={ConfirmResetPassword}/>
+      <Route exact path="//password-reset/confirm/:uid/:token/" component={ConfirmResetPassword}/>
       <Route exact path="/account/account-confirm-email/:key/" component={VerifyEmail}/>
         </UuidContext.Provider>
       </AuthContext.Provider> 
