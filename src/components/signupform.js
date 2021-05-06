@@ -17,11 +17,21 @@ export default function SignUp (props){
   
     );
     const RegisterUser =(item)=>{
-            
+            setIsLoading(true);
       axios.post(`${rootUrl}${signUpEndpoint}`,item,).then(
-       resp=>(setRegistered(true))
+       resp=>{
+         if(resp.status === 200){
+          setRegistered(true);
+          setIsLoading(false);
+
+         }
+        }
+     
        )   
-       .catch(error=>(setIsError));
+       .catch(error=>{
+         setIsError(true);
+         setIsLoading(false);
+      });
        return;
      };
   const [isRegistered, setRegistered] = useState(false); 
@@ -34,6 +44,9 @@ export default function SignUp (props){
  else{
   return(
 <React.Fragment>
+{isLoading&&<Image className="loadingspinner" src="/Iphone-spinner-2.gif"/>}
+ {isError&&<div><p>Error occured, retry</p></div>}
+
     <form onSubmit={handleSubmit(RegisterUser)} className="auth-form">
     <div className ="form-row form-margin margin-bottom">
                 <div className ="col">
@@ -83,7 +96,7 @@ export default function SignUp (props){
                   <p style={{ color: "red" }}>{errors.password2.message}</p>
                  )}
             </div></div>
-    <input type="submit"  value ="Register" className="auth-button"/>
+    <input type="submit" disabled ={isLoading} value ="Register" className="auth-button"/>
   </form>
   <div><span>Already registered</span><Link to="/login" className="startdo-link">Login</Link></div>
   </React.Fragment>);

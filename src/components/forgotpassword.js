@@ -25,7 +25,8 @@ export default function ResetPassword (props){
         setIsError(true)
       }
       })
-    .catch(error=>(setIsError(true)));
+    .catch(error=>{setIsError(true);
+      setIsLoading(false);});
   }
   if(isResetEmailSent){
     return(<Container>
@@ -38,6 +39,9 @@ export default function ResetPassword (props){
 	return(
 <Container className ="form-container">
 <h3 className="reset-password">Reset Password</h3>
+{isLoading&&<Image className="loadingspinner" src="/Iphone-spinner-2.gif"/>}
+ {isError&&<div><p>Error occured, retry</p></div>}
+
   <form onSubmit={handleSubmit(Reset)} className="auth-form">
   <div className ="form-row form-margin margin-bottom">
                 <div className ="col">
@@ -55,7 +59,7 @@ export default function ResetPassword (props){
                         errors.email.message}</p>)}
                 </div>
                 </div>
-                <input type="submit" className="auth-button" value="Reset"/>
+                <input type="submit" disabled ={isLoading} className="auth-button" value="Reset"/>
   </form>
   
   <div> <Link to="/login"  className="startdo-link"> Back to Login</Link></div>

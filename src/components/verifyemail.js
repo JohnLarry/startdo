@@ -44,13 +44,16 @@ export default function VerifyEmail (props){
  else{
   return(
     <Container>
+      {isLoading&&<Image className="loadingspinner" src="/Iphone-spinner-2.gif"/>}
+ {isError&&<div><p>Error occured, retry</p></div>}
+ 
     {isConfirmed&&<div><span>Email confirmation was succesful</span></div>}
     <form onSubmit={handleSubmit(Verify)}>
     <input type="hidden" name ="key" value= {key}/>
    
 
     
-    <input type="submit"  value ="Confirm Email"/>
+    <input type="submit" disabled = {isLoading} value ="Confirm Email"/>
   </form>
   </Container>
 );

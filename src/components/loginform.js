@@ -21,18 +21,21 @@ export default function Login(props){
   const { register, handleSubmit, errors,getValues } = useForm();
   
   const logUserIn = item => {
+    setIsLoading(true);
     axios.post(`${rootUrl}${loginEndpoint}`,item,).then(
       (resp)=>{
         if(resp.status === 200){
         setAuthTokens(resp.data.access_token);
         setUserUuid(resp.data.user.id);
         setLoggedIn(true);
+        setIsLoading(false);
       }
       else{
         setIsError(true)
       }
       })
-    .catch(error=>(setIsError(true)));
+    .catch(error=>{setIsError(true);
+      setIsLoading(false);});
   
   };
   
@@ -42,6 +45,9 @@ export default function Login(props){
   }
  else{
   return(<React.Fragment>
+    {isLoading&&<Image className="loadingspinner" src="/Iphone-spinner-2.gif"/>}
+
+
    <span>{isError && <span className="error-message">Email or  password is incorrect </span>}</span>
     <form onSubmit={handleSubmit(logUserIn)} className="auth-form">
   <div className ="form-row form-margin margin-bottom">
@@ -73,7 +79,7 @@ export default function Login(props){
                     
             </div>
             </div>
-  <input type="submit" className="auth-button" value="Login"/>
+  <input type="submit" disabled = {isLoading} className="auth-button" value="Login"/>
 </form>
  <div><span>Forgot your password <Link to="/reset-password"  className="startdo-link">Reset</Link></span></div>
  <div><span>New to startdo <Link to="/signup"  className="startdo-link"> Sign up</Link></span> </div>
