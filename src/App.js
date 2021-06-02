@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter, Switch, Route, Link, NavLink} from "react-router-dom";
 import Login from "./components/loginform";
 import Signup from "./components/signupform";
-import Calc from ".//calculator/calculator";
 import ResetPassword from "./components/forgotpassword";
 import ConfirmResetPassword from "./components/confirmresetpassword";
 import MainApp from "./MainApp";
