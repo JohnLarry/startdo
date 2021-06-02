@@ -240,9 +240,10 @@ $done-color: #313146;
 }
 .login-error-message{
   color:#fff;
-  background-color: #db1009;
+  //background-color: #db1009;
   max-width:max-content;
   text-align:center;
+  align-content: center;
 }
 .auth-form{
 
@@ -394,4 +395,8 @@ $done-color: #313146;
   font-size:20px;
   font-family: 'Courier New', Courier, monospace;
   color:#fff;
+}
+.verifyemail-btn{
+  margin-top: 3em;
+  padding: 1em;
 }

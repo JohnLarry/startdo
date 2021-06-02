@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import {Container} from "react-bootstrap";
+import {Container, Image} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { forgotPasswordEndpoint } from "../utilities/endpoints";
 import axios from "axios";

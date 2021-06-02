@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import {rootUrl} from "../utilities/constants";
 import {useForm} from "react-hook-form";
 import { signUpEndpoint } from "../utilities/endpoints";
-
+import {Container,Image} from "react-bootstrap";
 const csrfToken = Cookies.get('csrftoken');
 
 
@@ -18,11 +18,13 @@ export default function SignUp (props){
     );
     const RegisterUser =(item)=>{
             setIsLoading(true);
+            setIsError(false);
       axios.post(`${rootUrl}${signUpEndpoint}`,item,).then(
        resp=>{
-         if(resp.status === 200){
-          setRegistered(true);
+         if(resp.status === 201){
           setIsLoading(false);
+          setRegistered(true);
+          
 
          }
         }

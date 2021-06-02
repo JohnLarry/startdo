@@ -6,8 +6,7 @@ import {rootUrl} from "../utilities/constants";
 import {confirmEmailEndpoint} from "../utilities/endpoints";
 import {useParams} from "react-router-dom"; 
 import {useForm} from "react-hook-form";
-import {Container} from "react-bootstrap";
-
+import {Container,Image} from "react-bootstrap";
 
 
 
@@ -18,18 +17,22 @@ export default function VerifyEmail (props){
   
     );
     
-    const MovetoUrl =()=>{
-      setConfirmedEmail(true)
-    }
+   
     const Verify =(item)=>{
+      setIsError(false);
+      setIsLoading(true);
             
       axios.post(`${rootUrl}${confirmEmailEndpoint}${key}/`,item,).then(
        resp=>{
-         if(resp.status === 200){setConfirmed(true);
-        setTimeout(MovetoUrl(),3000);
+         if(resp.status === 200){
+           setConfirmed(true);
+        
         }}
        )   
-       .catch(error=>{setIsError(true)});
+       .catch(error=>{
+        setIsLoading(false);
+         setIsError(true);
+        });
        
      };
      const {key} = useParams();  
@@ -38,7 +41,7 @@ export default function VerifyEmail (props){
   const [isLoading, setIsLoading] = useState(false);
   const [isConfirmed, setConfirmed] = useState(false); 
 
-  if(isConfirmedEmail){
+  if(isConfirmed){
     return <Redirect push to = {{pathname:"/login"}} />;
   }
  else{
@@ -53,7 +56,7 @@ export default function VerifyEmail (props){
    
 
     
-    <input type="submit" disabled = {isLoading} value ="Confirm Email"/>
+    <input type="submit" disabled = {isLoading} className = "verifyemail-btn" value ="Click to confirm your email"/>
   </form>
   </Container>
 );
