@@ -9,7 +9,7 @@ import {useForm} from "react-hook-form";
 import { loginEndpoint } from "../utilities/endpoints";
 import {useAuth,useUuid} from "../context/authcontext";
 import {Container,Image} from "react-bootstrap";
-import { Counter } from '../features/daydo/counter';
+
 
 const csrfToken = Cookies.get('csrftoken');
 export default function Login(props){
@@ -86,7 +86,7 @@ export default function Login(props){
 </form>
  <div><span>Forgot your password <Link to="/reset-password"  className="startdo-link">Reset</Link></span></div>
  <div><span>New to startdo <Link to="/signup"  className="startdo-link"> Sign up</Link></span> </div>
- <div><Counter/></div>
+
  </React.Fragment>);
 }
 }
