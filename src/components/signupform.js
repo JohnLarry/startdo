@@ -98,7 +98,8 @@ export default function SignUp (props){
                   <p style={{ color: "red" }}>{errors.password2.message}</p>
                  )}
             </div></div>
-    <input type="submit" disabled ={isLoading} value ="Register" className="auth-button"/>
+    <input type="submit" disabled ="disabled" value ="Register" className="auth-button"/>
+    <p>Sign up is disabled, Email host demands we stops using sub-domain, we shall rectify it</p>
   </form>
   <div><span>Already registered</span><Link to="/login" className="startdo-link">Login</Link></div>
   </React.Fragment>);

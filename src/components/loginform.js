@@ -86,7 +86,8 @@ export default function Login(props){
 </form>
  <div><span>Forgot your password <Link to="/reset-password"  className="startdo-link">Reset</Link></span></div>
  <div><span>New to startdo <Link to="/signup"  className="startdo-link"> Sign up</Link></span> </div>
-
+<div><p>Login details</p>
+<span>Email:chokoschokos1@gmail.com</span><br/><span>Password:chokoschokos1</span></div>
  </React.Fragment>);
 }
 }
